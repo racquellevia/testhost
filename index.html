@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<title>Push Relabel Walkthrough</title>
+		<style>
+			#page{
+				font-family: sans-serif;
+			}
+			#opt{
+				font-family: sans-serif;
+				color:"black";
+			}
+			#goto{
+				width:2em;
+			}
+			.center {
+			margin: auto;
+			width: 90%;
+			height: 600px;
+			padding: 10px;
+			}
+			#myhtml {
+				position: float;
+				width:100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="center">
+			 <embed id="myhtml" type="text/html", src="intro.html"> 
+		</div>
+		<div class="center">
+			 <input type="button" value="Restart Walkthrough" onclick="restart()" >
+			 <input type="button" value="Reload Current Slide" onclick="reload()" >
+			 <input type="button" value="<" onclick="countdown()" >
+			 <input type="button" value=">" onclick="countup()" >
+			 <p id="opt">   Skip to slide: <input id="goto" type="text"  value="1" onchange="reload(1)"> / 45 </p>			 
+	<br><br><br>
+			<h2>Useful Resources</h2>
+			<h3/>The Original Publication</h3>
+				<a href="https://www.cs.princeton.edu/courses/archive/fall03/cs528/handouts/a%20new%20approach.pdf">
+					A New Approach to the Maximum Flow Problem, 1988, Goldberg & Tarjan
+				</a>
+			<h3>Visualizations</h3>
+				By far the most helpful resource I found and the only clear visualization of the algorithm:<br>
+				<a href="http://www.adrian-haarbach.de/idp-graph-algorithms/implementation/maxflow-push-relabel/index_en.html">
+					Adrian Haarbach's "Goldberg Tarjan Push Relabel Algorithm"
+				</a>
+			<h3>Lectures</h3>
+				<a href="https://cseweb.ucsd.edu/classes/sp11/cse202-a/lecture9-final.pdf">
+					Dr. Chaudhuri, UCSD
+				</a><br>
+				<a href="https://www.toc.uni-konstanz.de/typo3temp/secure_downloads/95107/0/42bfe2f9c1cec00b23f2ad087a7975335469f248/goldberg-tarjan.pdf">
+					Dep't of Computer & Information Science, University of Konstanz
+				</a><br>
+				<a href="https://faculty.math.illinois.edu/~mlavrov/docs/482-fall-2019/lecture29.pdf">
+					Proving that push-relabel works, University of Illinois @ Urbana Champaign
+				</a>
+
+		</div>
+
+		<script>
+			var count = 0;
+			document.getElementById("goto").value =1;
+			var links = ["intro.html"]
+
+
+			function reload(opt) {
+				if (opt == 1){
+					inp = document.getElementById("goto").value -1
+	    			if(inp>=0 && inp<=links.length-1){
+	    				count = inp;
+	    			}
+	    			else{
+	    				alert("Please input a number between 1 & " + String(links.length));
+	    			}
+	    			
+				}
+				document.getElementById("goto").value = count+1 ;
+				sourceSwitch();
+
+			}
+
+			function restart() {
+				count=0;
+				reload();
+			}
+
+			function countup() {
+				count += 1;
+				if(count > links.length-1){
+					count = 0;
+				}
+				reload();
+			}
+
+			function countdown() {
+				count -= 1;
+				if(count < 0){
+					count = links.length-1;
+				}
+				reload();
+			}
+
+			document.addEventListener('keyup', (event) => {
+				  var name = event.key;
+				  var code = event.code;
+				  // Alert the key name and key code on keydown
+				  if(event.key == "." | event.key=="ArrowRight"){
+				  	countup();
+				  }
+				  if(event.key == ","| event.key=="ArrowLeft"){
+				  	countdown();
+				  }
+				  // alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+			}, false);
+			// 	  alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+			// }, false);
+
+			function sourceSwitch() {
+    			document.getElementById("myhtml").setAttribute("src", links[count]);
+    		}
+
+    		function pageNum(){
+    			n  = count+1
+    			document.getElementById("page").innerHTML = 'Slide: ' + n;
+
+    		}
+
+		
+		</script>
+
+
+		
+  <!-- <IMG SRC="rev1.gif"> -->
+	</body>
+</html>
